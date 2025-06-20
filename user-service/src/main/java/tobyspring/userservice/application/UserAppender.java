@@ -16,7 +16,7 @@ public class UserAppender {
 
 
     public UserDto append(UserDto userDto) {
-        String password = bCryptPasswordEncoder.encode(userDto.password());
+        String password = bCryptPasswordEncoder.encode(userDto.getPassword());
         User user = userRepository.save(User.of(userDto,password));
         return UserDto.from(user);
     }

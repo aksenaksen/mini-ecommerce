@@ -37,8 +37,8 @@ public class User {
 
     public static User of(UserDto userDto , String encryptedPassword) {
         return User.builder()
-                .email(userDto.email())
-                .name(userDto.name())
+                .email(userDto.getEmail())
+                .name(userDto.getName())
                 .userId(UUID.randomUUID().toString())
                 .encryptedPassword(encryptedPassword)
                 .build();

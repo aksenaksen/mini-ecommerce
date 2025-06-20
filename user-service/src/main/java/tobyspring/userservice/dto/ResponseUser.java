@@ -11,7 +11,7 @@ public record ResponseUser(
 {
 
     public static ResponseUser from(UserDto user) {
-        return new ResponseUser(user.email(), user.name(), user.userId(),null
-        );
+        return new ResponseUser(user.getEmail(), user.getName(), user.getUserId(),user.getOrders());
+
     }
 }

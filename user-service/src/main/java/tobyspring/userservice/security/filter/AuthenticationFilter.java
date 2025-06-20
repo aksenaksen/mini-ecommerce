@@ -66,13 +66,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         UserDto userDetails = userFinder.findByEmail(email);
 
         String token = Jwts.builder()
-                .setSubject(userDetails.userId())
+                .setSubject(userDetails.getUserId())
                 .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(env.getProperty("token.expired"))))
                 .signWith(SignatureAlgorithm.HS512,env.getProperty("token.secret"))
                 .compact();
 
         response.addHeader("token", token);
-        response.addHeader("userId", userDetails.userId());
+        response.addHeader("userId", userDetails.getUserId());
 
         log.info("successful authentication");
     }

@@ -36,6 +36,8 @@ management:
     web:
       exposure:
         include: refresh, health, beans, busrefresh
+order-service:
+  url: http://127.0.0.1:8000/order-service
 
 
 
