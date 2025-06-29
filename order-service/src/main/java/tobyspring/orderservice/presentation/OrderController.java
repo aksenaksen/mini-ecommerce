@@ -1,15 +1,20 @@
 package tobyspring.orderservice.presentation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tobyspring.orderservice.application.OrderService;
 import tobyspring.orderservice.dto.OrderDto;
+import tobyspring.orderservice.messgaequeue.KafkaProducer;
+import tobyspring.orderservice.messgaequeue.OrderProducer;
 import tobyspring.orderservice.vo.RequestOrder;
 import tobyspring.orderservice.vo.ResponseOrder;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/")
@@ -17,6 +22,8 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final KafkaProducer kafkaProducer;
+    private final OrderProducer orderProducer;
 
 
     @GetMapping("/health_check")
@@ -28,9 +35,21 @@ public class OrderController {
     @PostMapping("/{userId}/orders")
     public ResponseEntity<ResponseOrder> createOrder(@PathVariable("userId") String userId,@RequestBody RequestOrder request){
         OrderDto orderDto = OrderDto.of(userId,request);
-        OrderDto response = orderService.createOrder(orderDto);
+//        OrderDto response = orderService.createOrder(orderDto);
+
+        ObjectMapper mapper = new ObjectMapper();
+        orderDto.setOrderId(UUID.randomUUID().toString());
+        orderDto.setUserId(userId);
+        orderDto.setTotalPrice(orderDto.getQty() * orderDto.getUnitPrice());
+
+        ResponseOrder response = ResponseOrder.from(orderDto);
+
+
+        kafkaProducer.send("example-catalog-topic", orderDto);
+        orderProducer.send("orders", orderDto);
+
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ResponseOrder.from(response));
+                .body(response);
     }
 
     @GetMapping("/{userId}/orders")

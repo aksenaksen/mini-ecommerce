@@ -28,4 +28,8 @@ public class Catalog implements Serializable {
     @Column(nullable = false, updatable = false,insertable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date createdAt;
+
+    public void changeStock(int qty) {
+        this.stock = stock - qty;
+    }
 }

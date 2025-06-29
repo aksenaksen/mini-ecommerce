@@ -24,7 +24,7 @@ public class OrderDto {
     public static OrderDto from(Order order) {
         return OrderDto.builder()
                 .productId(order.getProductId())
-                .qty(order.getQuantity())
+                .qty(order.getQty())
                 .totalPrice(order.getTotalPrice())
                 .unitPrice(order.getUnitPrice())
                 .orderId(order.getOrderId())

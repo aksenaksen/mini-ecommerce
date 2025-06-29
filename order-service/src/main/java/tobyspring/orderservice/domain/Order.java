@@ -27,7 +27,7 @@ public class Order {
     private String productId;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private Integer qty;
 
     @Column(nullable = false)
     private Integer totalPrice;
@@ -53,7 +53,7 @@ public class Order {
                 .userId(orderDto.getUserId())
                 .unitPrice(orderDto.getUnitPrice())
                 .totalPrice(orderDto.getQty() * orderDto.getUnitPrice())
-                .quantity(orderDto.getQty())
+                .qty(orderDto.getQty())
                 .build();
     }
 
