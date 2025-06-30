@@ -2,6 +2,7 @@ package tobyspring.orderservice.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class OrderController {
     @PostMapping("/{userId}/orders")
     public ResponseEntity<ResponseOrder> createOrder(@PathVariable("userId") String userId,@RequestBody RequestOrder request){
         OrderDto orderDto = OrderDto.of(userId,request);
-//        OrderDto response = orderService.createOrder(orderDto);
+        OrderDto result = orderService.createOrder(orderDto);
 
         ObjectMapper mapper = new ObjectMapper();
         orderDto.setOrderId(UUID.randomUUID().toString());
@@ -54,7 +56,11 @@ public class OrderController {
 
     @GetMapping("/{userId}/orders")
     public ResponseEntity<List<ResponseOrder>> createOrder(@PathVariable("userId") String userId){
+
+
+        log.info("Before add order microService");
         List<OrderDto> orderDtoList = orderService.getOrdersByUserId(userId);
+        log.info("After add order microService");
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(orderDtoList.stream()
                         .map(ResponseOrder::from)

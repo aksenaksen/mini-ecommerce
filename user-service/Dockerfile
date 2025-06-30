@@ -1,7 +1,7 @@
 FROM openjdk:21-ea-11-jdk-slim
 VOLUME /tmp
 
-COPY target/order-service-1.0.jar OrderService.jar
+COPY target/user-service-1.0.jar UserService.jar
 
 ENV SPRING_DATASOURCE_URL="jdbc:mariadb://mariadb:3306/mydb"
 
@@ -17,4 +17,6 @@ ENV SPRING_ZIPKIN_BASE_URL="http://zipkin-zipkin-1:9411"
 
 ENV MANAGEMENT_ZIPKIN_TRACING_ENDPOINT="http://zipkin-zipkin-1:9411/api/v2/spans"
 
-ENTRYPOINT ["java","-jar","OrderService.jar"]
+
+
+ENTRYPOINT ["java","-jar","UserService.jar"]

@@ -16,6 +16,9 @@ spring:
         server:
           git:
             uri: https://github.com/aksenaksen/cloud-config.git
+            default-label: master
+            username: aksenaksen
+            password: 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
 management:
   endpoints:
     web:

@@ -1,6 +1,8 @@
 encrypt:
 #  key: abcdeasdfasdf123124124010239182398asdf981239
   key-store:
-    location: file:///${user.home}/Desktop/ecoomerce/config/keystore/apiEncryptionKey.jks
+#    location: file:///${user.home}/Desktop/ecoomerce/config/keystore/apiEncryptionKey.jks
+    location: file:/apiEncryptionKey.jks
     password: test1234
+
     alias: apiEncryptionKey
